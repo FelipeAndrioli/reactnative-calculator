@@ -20,10 +20,31 @@ export default class App extends Component {
     })
   }
 
+  validate() {
+    const text = this.state.resultText
+    switch(text.slice(-1)) {
+      case '+':
+      case '-':
+      case '*':
+      case '/':
+        return false
+    }
+
+    switch(text.slice(text.length)) {
+      case '+':
+      case '-':
+      case '*':
+      case '/':
+        return false
+    }
+
+    return true
+  }
+
   buttonPressed(text) {
 
     if(text == '=') {
-      return this.calculateResult(this.state.resultText)
+      return this.validate() && this.calculateResult(this.state.resultText)
     }
 
     this.setState({
@@ -42,11 +63,8 @@ export default class App extends Component {
         break
 
       case '+':
-
       case '-':
-
       case '*':
-
       case '/':
 
         const lastChar = this.state.resultText.split('').pop()
@@ -71,7 +89,7 @@ export default class App extends Component {
       let row = []
       for(let j = 0; j < 3; j++) {
         row.push(
-          <TouchableOpacity onPress = {() => this.buttonPressed(nums[i][j])} style = {styles.btn}><Text style = {styles.btntext}>{nums[i][j]}</Text></TouchableOpacity>
+          <TouchableOpacity onPress = {() => this.buttonPressed(nums[i][j])} key = {nums[i][j]} style = {styles.btn}><Text style = {styles.btntext}>{nums[i][j]}</Text></TouchableOpacity>
         )
       }
       rows.push(<View style = {styles.row}>{row}</View>)
@@ -119,14 +137,15 @@ const styles = StyleSheet.create({
   },
   calculationText: {
     fontSize: 24,
-    color: 'white'
+    color: 'gray'
   },
   resultText: {
     fontSize: 30,
-    color: 'white'
+    color: 'black'
   },
   btntext: {
-    fontSize: 30
+    fontSize: 30,
+    color: 'white'
   },
   white: {
     color: 'white'
@@ -139,13 +158,13 @@ const styles = StyleSheet.create({
   },
   result: {
     flex: 2,
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'flex-end'
   },
   calculation: {
     flex: 1,
-    backgroundColor: 'green',
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'flex-end'
   },
@@ -155,12 +174,12 @@ const styles = StyleSheet.create({
   },
   numbers: {
     flex: 3,
-    backgroundColor: 'yellow'
+    backgroundColor: '#434343'
   },
   operations: {
     flex: 1,
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: 'black'
+    backgroundColor: '#636363'
   }
 })
