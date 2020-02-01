@@ -9,7 +9,7 @@ export default class App extends Component {
       resultText: "",
       calculationText: ""
     }
-    this.operations = ['D', '+', '-', '*', '/']
+    this.operations = ['DEL', '+', '-', '*', '/']
   }
 
   calculateResult() {
@@ -54,7 +54,7 @@ export default class App extends Component {
 
   operate(operation) {
     switch(operation) {
-      case 'D': 
+      case 'DEL': 
         let text = this.state.resultText.split('')
         text.pop()
         this.setState({
@@ -83,23 +83,23 @@ export default class App extends Component {
   render() {
 
     let rows = []
-    let nums = [[1, 2, 3], [4, 5, 6], [7, 8, 9], ['.', 0, '=']]
+    let nums = [[7, 8, 9], [4, 5, 6], [1, 2, 3], ['.', 0, '=']]
 
     for(let i = 0; i < 4; i++) {
       let row = []
       for(let j = 0; j < 3; j++) {
         row.push(
-          <TouchableOpacity onPress = {() => this.buttonPressed(nums[i][j])} key = {nums[i][j]} style = {styles.btn}><Text style = {styles.btntext}>{nums[i][j]}</Text></TouchableOpacity>
+          <TouchableOpacity key = {nums[i][j]} onPress = {() => this.buttonPressed(nums[i][j])} key = {nums[i][j]} style = {styles.btn}><Text style = {styles.btntext}>{nums[i][j]}</Text></TouchableOpacity>
         )
       }
-      rows.push(<View style = {styles.row}>{row}</View>)
+      rows.push(<View key = {i} style = {styles.row}>{row}</View>)
     }
 
     let ops = []
 
     for(let i = 0; i < 5; i++) {
       ops.push(
-        <TouchableOpacity onPress = {() => this.operate(this.operations[i])} style = {styles.btn}><Text style = {[styles.btntext, styles.white]}>{this.operations[i]}</Text></TouchableOpacity>
+        <TouchableOpacity key = {this.operations[i]} onPress = {() => this.operate(this.operations[i])} style = {styles.btn}><Text style = {[styles.btntext, styles.white]}>{this.operations[i]}</Text></TouchableOpacity>
       )
     }
 
